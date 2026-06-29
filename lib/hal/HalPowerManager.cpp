@@ -89,7 +89,7 @@ void HalPowerManager::startDeepSleep(HalGPIO& gpio) const {
   // Note: this is only useful for waking up on USB power. On battery, the MCU will be completely powered off, so the
   // power button is hard-wired to briefly provide power to the MCU, waking it up regardless of the wakeup source
   // configuration
-  
+
   // Read https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/system/sleep_modes.html
   // for more details on the ESP32-S3 deep sleep behavior and wakeup sources (For ESP32-S3, the GPIO 0-21 can be used as wakeup sources)
   esp_sleep_enable_ext1_wakeup_io(1ULL << InputManager::POWER_BUTTON_PIN, ESP_EXT1_WAKEUP_ANY_LOW);

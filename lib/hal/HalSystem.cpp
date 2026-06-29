@@ -43,7 +43,14 @@ void IRAM_ATTR __wrap_panic_print_backtrace(const void* frame, int core) {
   }
 
   // Copied from components/esp_system/port/arch/riscv/panic_arch.c
-  uint32_t sp = (uint32_t)((RvExcFrame*)frame)->sp;
+  // and components/esp_system/port/arch/xtensa/panic_arch.c (Xtensa)
+  #if defined(__riscv)
+    uint32_t sp = (uint32_t)((RvExcFrame*)frame)->sp;
+  #elif defined(__xtensa__)
+    uint32_t sp = (uint32_t)((XtExcFrame*)frame)->a1;
+  #else
+    #error "Unsupported architecture for panic backtrace"
+  #endif
   const int per_line = 8;
   int depth = 0;
   for (int x = 0; x < 1024; x += per_line * sizeof(uint32_t)) {
